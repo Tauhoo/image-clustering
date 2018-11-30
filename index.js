@@ -1,4 +1,12 @@
 var png = require('png-js')
+function isClusterEqual(firstClusters, secondClusters) {
+  for (let [index, cluster1] of firstClusters.entries()) {
+    cluster2 = secondClusters[index]
+    if (cluster1.index !== cluster2.index) return false
+    if (cluster1.color !== cluster2.color) return false
+  }
+  return true
+}
 function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 }
@@ -49,5 +57,4 @@ png.decode('./images/smalltest.png', pixels => {
     },
   ]
   groups = group(clusters, pixels)
-  console.log(groups)
 })
