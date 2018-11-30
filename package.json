@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "ervy": "^1.0.4",
-    "png-js": "^0.1.1"
+    "png-js": "^0.1.1",
+    "pngjs": "^3.3.3"
   }
 }
