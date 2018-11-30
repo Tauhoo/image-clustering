@@ -1,4 +1,6 @@
 var png = require('png-js')
+var scatter = require('ervy/lib/scatter')
+var { bg, fg } = require('ervy/lib/utils')
 function isClusterEqual(firstClusters, secondClusters) {
   for (let [index, cluster1] of firstClusters.entries()) {
     cluster2 = secondClusters[index]
@@ -37,25 +39,27 @@ function group(clusters, pixels) {
   return groups
 }
 function updateClusters(clusters, groups) {
-  newClusters = []
-  clusters.forEach(({ clusterColor, clusterIndex }) => {
-    newClusters.push({ sumColor: 0, sumIndex: 0, count: 0 })
-  })
+  newClusters = clusters.map((value, index) => ({
+    sumColor: 0,
+    sumIndex: 0,
+    count: 0,
+  }))
   groups.forEach(({ color, index, cluster }) => {
     let { sumColor, sumIndex, count } = newClusters[cluster]
+    if (cluster === 3) console.log(sumColor, sumIndex, count)
     newClusters[cluster] = {
       sumColor: sumColor + color,
       sumIndex: sumIndex + index,
       count: count + 1,
     }
   })
-  newClusters.map(({ sumColor, sumIndex, count }) => ({
-    color: Math.floor(sumColor / count),
-    index: Math.floor(sumIndex / count),
+  return newClusters.map(({ sumColor, sumIndex, count }) => ({
+    color: count === 0 ? 0 : Math.floor(sumColor / count),
+    index: count === 0 ? 0 : Math.floor(sumIndex / count),
   }))
 }
 png.decode('./images/smalltest.png', pixels => {
-  let groups = []
+  groups = []
   clusters = [
     {
       color: 200,
@@ -76,4 +80,17 @@ png.decode('./images/smalltest.png', pixels => {
   ]
   groups = group(clusters, pixels)
   newClusters = updateClusters(clusters, groups)
+  colors = ['red', 'green', 'blue', 'yellow']
+  scatterData = groups.map(({ color, index, cluster }) => ({
+    key: cluster + '',
+    value: [index, color],
+    style: fg(colors[cluster], '*'),
+  }))
+  console.log(scatter(scatterData, { legendGap: 100, width: 50, height: 50 }))
+  /*
+  while (!isClusterEqual(clusters, newClusters)) {
+  groups = group(newClusters, pixels)
+  clusters = newClusters
+  newClusters = updateClusters(clusters, groups)
+  }*/
 })

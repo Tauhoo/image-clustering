@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+ervy@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ervy/-/ervy-1.0.4.tgz#08d9a998abd7d07ae87a87a5d000553b39345d1b"
+  integrity sha512-NtZGVEq0b8pFLAMu3glsV8xYupYoI1pzecvCezHFK2FeFWTIGt/ss8O5MZY90OjFmleO6EpAN4M1tAgNyiW8Kg==
+
 png-js@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/png-js/-/png-js-0.1.1.tgz#1cc7c212303acabe74263ec3ac78009580242d93"

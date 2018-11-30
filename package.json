@@ -5,6 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "ervy": "^1.0.4",
     "png-js": "^0.1.1"
   }
 }
