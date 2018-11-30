@@ -36,6 +36,24 @@ function group(clusters, pixels) {
   })
   return groups
 }
+function updateClusters(clusters, groups) {
+  newClusters = []
+  clusters.forEach(({ clusterColor, clusterIndex }) => {
+    newClusters.push({ sumColor: 0, sumIndex: 0, count: 0 })
+  })
+  groups.forEach(({ color, index, cluster }) => {
+    let { sumColor, sumIndex, count } = newClusters[cluster]
+    newClusters[cluster] = {
+      sumColor: sumColor + color,
+      sumIndex: sumIndex + index,
+      count: count + 1,
+    }
+  })
+  newClusters.map(({ sumColor, sumIndex, count }) => ({
+    color: Math.floor(sumColor / count),
+    index: Math.floor(sumIndex / count),
+  }))
+}
 png.decode('./images/smalltest.png', pixels => {
   let groups = []
   clusters = [
@@ -57,4 +75,5 @@ png.decode('./images/smalltest.png', pixels => {
     },
   ]
   groups = group(clusters, pixels)
+  newClusters = updateClusters(clusters, groups)
 })
